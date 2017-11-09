@@ -1,0 +1,128 @@
+mac os使用lsusb命令和连接未知的Android设备
+
+今天在mac上连接一个android设备发现连不上，adb devices看不到设备，于是想用lsusb命令看下，结果发现Mac竟然没有这个命令，于是网上搜了下，发现了下面的命令system_profiler SPUSBDataType，但每次都输入这个命令我也记不住啊，于是自己在～／bin下创建个lsusb文件，输入system_profiler SPUSBDataType， 然后加上执行权限，这样Mac下就能用lsusb了。
+
+然后使用lsusb查看到android设备的 vender id: 0x19d2 Product Id:0x2207
+输入： vi ~/.android/adb_usb.ini 命令，在打开的 adb_usb.ini文件中添加Vendor ID对应的值， 然后保存退出
+然后输入adb kill-server 和adb devices 命令，就应该可以看设备了。
+
+
+
+mac os 的系统信息有相关内容。
+
+命令可以显示system_profiler SPUSBDataType 
+
+$echo "system_profiler SPUSBDataType"  ~/bin/lsusb
+
+
+$ chmod +x ~/bin/lsusb 
+$ lsusb
+USB:
+
+    USB 3.0 SuperSpeed Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBXHCI
+      PCI Device ID: 0x8c31 
+      PCI Revision ID: 0x0005 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x0a 
+
+        Internal Memory Card Reader:
+
+          Product ID: 0x8406
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 8.20
+          Serial Number: 000000000820
+          Speed: Up to 5 Gb/sec
+          Manufacturer: Apple
+          Location ID: 0x15400000 / 2
+          Current Available (mA): 900
+          Current Required (mA): 896
+          Built-In: Yes
+
+    USB 3.0 Hi-Speed Bus:
+
+      Host Controller Location: Built-in USB
+      Host Controller Driver: AppleUSBXHCI
+      PCI Device ID: 0x8c31 
+      PCI Revision ID: 0x0005 
+      PCI Vendor ID: 0x8086 
+      Bus Number: 0x0a 
+   P990:
+
+          Product ID: 0x56a6
+          Vendor ID: 0x26f1
+          Version: 2.31
+          Serial Number: 0123456789ABCDEF
+          Speed: Up to 480 Mb/sec
+          Manufacturer: LANDI
+          Location ID: 0x14500000 / 23
+          Current Available (mA): 500
+          Current Required (mA): 500
+
+        Android:
+
+          Product ID: 0x9039
+          Vendor ID: 0x05c6  (Qualcomm, Inc)
+          Version: 2.32
+          Serial Number: 1c372511
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Android
+          Location ID: 0x14500000 / 12
+          Current Available (mA): 500
+          Current Required (mA): 500
+
+        BRCM20702 Hub:
+
+          Product ID: 0x4500
+          Vendor ID: 0x0a5c  (Broadcom Corp.)
+          Version: 1.00
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0x14800000 / 4
+          Current Available (mA): 500
+          Current Required (mA): 94
+          Built-In: Yes
+
+            Bluetooth USB Host Controller:
+
+              Product ID: 0x8289
+              Vendor ID: 0x05ac  (Apple Inc.)
+              Version: 1.03
+              Speed: Up to 12 Mb/sec
+              Manufacturer: Apple Inc.
+              Location ID: 0x14830000 / 7
+              Current Available (mA): 500
+              Current Required (mA): 0
+              Built-In: Yes
+
+        Apple Internal Keyboard / Trackpad:
+
+          Product ID: 0x0262
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 2.25
+          Speed: Up to 12 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0x14c00000 / 13
+          Current Available (mA): 500
+          Current Required (mA): 40
+          Built-In: Yes
+
+        Apple USB Ethe娕燬ጠ✩騀龝枩Љ≠㙱นн:
+
+          Product ID: 0x1402
+          Vendor ID: 0x05ac  (Apple Inc.)
+          Version: 0.01
+          Serial Number: 1460AB
+          Speed: Up to 480 Mb/sec
+          Manufacturer: Apple Inc.
+          Location ID: 0x14100000 / 1
+          Current Available (mA): 500
+          Current Required (mA): 250
+          BSD Name: en4
+ vi ~/.android/adb_usb.ini 命令，在打开的 adb_usb.ini文件中添加Vendor ID对应的 0x26f1
+$ adb kill-server
+$   adb devices 
+List of devices attached 
+0123456789ABCDEF device

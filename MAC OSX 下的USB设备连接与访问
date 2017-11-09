@@ -1,0 +1,35 @@
+MAC OSX 下的USB设备连接与访问
+
+
+很多设备（如Arduino及基于该平台开发的系统）使用PL2302/CH340/FTD等芯片实现COM转USB接口，在Mac OS X下可使用ls /dev/tty.*或lsusb查看USB设备的信息，通过标准串口进行数据访问，如minicom/screen/xconsole等进行工具访问
+
+ 由于COM协议的广泛使用，很多设备虽然接口改为了USB，但内部数据通讯协议仍然使用的是COM(即传统的RS232串口协议，新的使用TTL)。很多设备使用了PL2302/CH340/FTDI等芯片来通过USB模拟出串口协议，如Arduino/NodeMCU等都采用类似的机制。
+    在Windows下，安装驱动程序后可以直接在“设备管理器”找到模拟的COM设备（找不到的话，可能驱动有问题了，有时候重新启动或重新安装能解决）。在Linux下可以通过lsusb和dmesg列出USB端口和所模拟的COM设备端口（如/dev/tty.usb0等等）。在Mac OS X下怎么办呢？
+
+    Mac OS X下有两种办法，一个是直接列出设备 ，这个设备树的管理与Linux是一样的：
+
+
+
+ls /dev/tty.*
+    第二个办法是安装lsusb命令程序，如下所示：
+
+
+$ brew update
+
+$ brew tap jlhonora/lsusb
+
+$ brew install lsusb
+
+$ lsusb
+    还可以使用下面的命令查看系统的USB设备信息：
+
+
+
+system_profiler SPUSBDataType
+    串口转USB的设备可以通过标准串口进行数据访问，如minicom/screen/xconsole等进行工具访问。xconsole是基于Python的串口访问工具，需要安装pyserial支持库，可以从 https://git.oschina.net/supergis/ESP8266App 获得。
+
+
+
+#安装minicom串口访问工具：
+
+$brew install minicom

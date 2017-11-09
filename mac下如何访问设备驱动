@@ -1,0 +1,12 @@
+mac下如何访问设备驱动 
+
+第一
+
+	使用终端命令 访问 当前终端
+
+macserver:~ admindyn$ echo "hello">>/dev/tty
+hello
+macserver:~ admindyn$ 
+
+	/dev/tty 为当前终端  任何tty（任何类型的终端设备）
+	echo "hello">>/dev/tty 会直接显示在当前的终端上
